@@ -11,13 +11,21 @@ variable "subnet_secondary_ip_cidr_range" {
   description = "subnet for secondary dev environment"
 }
 
+variable "network_name" {
+  description = "nama network kita"
+}
+
+variable "subnet_01_name" {
+  description = "nama subnet 01"
+}
+
 resource "google_compute_network" "development_network" {
-  name                    = "development-network"
+  name                    = var.network_name
   auto_create_subnetworks = false
 }
 
 resource "google_compute_subnetwork" "dev_subnet_01" {
-  name          = "dev-subnet-01"
+  name          = var.subnet_01_name
   ip_cidr_range = var.subnet_ip_cidr_range
   region        = "asia-southeast2"
   network       = google_compute_network.development_network.id
