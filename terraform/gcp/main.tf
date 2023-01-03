@@ -3,11 +3,6 @@ provider "google" {
   region  = "asia-southeast2"
 }
 
-variable "subnet_ip_cidr_range" {
-  description = "ip range untuk semua subnet"
-  type        = list(string)
-}
-
 variable "subnet_secondary_ip_cidr_range" {
   description = "subnet for secondary dev environment"
 }
@@ -16,9 +11,13 @@ variable "network_name" {
   description = "nama network kita"
 }
 
-variable "subnet_name_list" {
-  description = "nama subnet 01"
-  type        = list(string)
+variable "subnet_list" {
+  description = "variable for all of subnets value"
+  type = list(object({
+    range  = string
+    name   = string
+    region = string
+  }))
 }
 
 resource "google_compute_network" "development_network" {
@@ -27,9 +26,9 @@ resource "google_compute_network" "development_network" {
 }
 
 resource "google_compute_subnetwork" "dev_subnet_01" {
-  name          = var.subnet_name_list[0]
-  ip_cidr_range = var.subnet_ip_cidr_range[0]
-  region        = "asia-southeast2"
+  name          = var.subnet_list[0].name
+  ip_cidr_range = var.subnet_list[0].range
+  region        = var.subnet_list[0].region
   network       = google_compute_network.development_network.id
   secondary_ip_range {
     range_name    = "secondary-range-01"
@@ -38,9 +37,9 @@ resource "google_compute_subnetwork" "dev_subnet_01" {
 }
 
 resource "google_compute_subnetwork" "dev_subnet_02" {
-  name          = var.subnet_name_list[1]
-  ip_cidr_range = var.subnet_ip_cidr_range[1]
-  region        = "asia-southeast1"
+  name          = var.subnet_list[1].name
+  ip_cidr_range = var.subnet_list[1].range
+  region        = var.subnet_list[1].region
   network       = google_compute_network.development_network.id
 }
 
