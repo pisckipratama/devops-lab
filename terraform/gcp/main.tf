@@ -1,6 +1,11 @@
 provider "google" {
-  project = "pisckilab"
-  region  = "asia-southeast2"
+  project     = "pisckilab"
+  region      = "asia-southeast2"
+  credentials = var.google_credentials
+}
+
+variable "google_credentials" {
+  description = "for google credentials"
 }
 
 variable "subnet_secondary_ip_cidr_range" {
