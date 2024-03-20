@@ -29,4 +29,11 @@ func main() {
 	fmt.Println(valueTime.Day())
 	fmt.Println(valueTime.Hour())
 	fmt.Println(valueTime.Second())
+
+	parse, err := time.Parse(time.RFC3339, "2022-09-29T17:39:11Z")
+	if err != nil {
+		fmt.Print("Error", err.Error())
+	} else {
+		fmt.Println(parse)
+	}
 }
