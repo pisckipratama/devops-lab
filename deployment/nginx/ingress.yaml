@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  name: webserv
+  namespace: production
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: webserv.finalproject.pisckitama.my.id
+    http:
+      paths:
+      - backend:
+          service:
+            name: nginx-svc
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - webserv.finalproject.pisckitama.my.id
+    secretName: finalproject-pisckitama-my-id-wc-crt
