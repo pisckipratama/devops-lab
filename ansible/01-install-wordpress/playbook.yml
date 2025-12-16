@@ -49,7 +49,7 @@
         dest: /tmp/wordpress.tar.gz
 
     - name: Extract WordPress
-      unarchived:
+      unarchive:
         src: /tmp/wordpress.tar.gz
         dest: /var/www/
         remote_src: yes
