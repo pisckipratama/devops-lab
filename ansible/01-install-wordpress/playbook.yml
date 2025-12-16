@@ -18,7 +18,7 @@
         name:
           - nginx
           - mariadb-server
-          - python3-mysql
+          - python3-pymysql
           - php-fpm
           - php-mysql
           - php-curl
