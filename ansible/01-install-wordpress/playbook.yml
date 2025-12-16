@@ -5,7 +5,7 @@
   vars:
     db_name: wordpress_db
     db_user: wp_user
-    db_password: supersecret123
+    db_pass: supersecret123
 
   tasks:
     - name: Update apt cache
@@ -37,9 +37,9 @@
 
     - name: Create Database User
       mysql_user:
-        name: "{{ db_name }}"
-        password: "{{ db_password }}"
-        priv: "{{ db_name }}.*ALL"
+        name: "{{ db_user }}"
+        password: "{{ db_pass }}"
+        priv: "{{ db_name }}.*:ALL"
         state: present
         login_unix_socket: /var/run/mysqld/mysqld.sock
 
@@ -84,7 +84,7 @@
       replace:
         path: /var/www/wordpress/wp-config.php
         regexp: 'password_here'
-        replace: "{{ db_password }}"
+        replace: "{{ db_pass }}"
     
     - name: Copy konfigurasi Nginx dari Laptop ke VM
       copy:
