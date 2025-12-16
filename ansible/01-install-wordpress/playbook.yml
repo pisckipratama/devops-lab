@@ -62,47 +62,47 @@
         mode: '0755'
         recurse: yes
 
-    - name: Copy sample config ke wp-config.php
+    - name: Copy sample config to wp-config.php
       copy:
         src: /var/www/wordpress/wp-config-sample.php
         dest: /var/www/wordpress/wp-config.php
         remote_src: yes
 
-    - name: Inject Database Credential ke wp-config.php
+    - name: Inject Database Credential to wp-config.php
       replace:
         path: /var/www/wordpress/wp-config.php
         regexp: 'database_name_here'
         replace: "{{ db_name }}"
 
-    - name: Set DB User di wp-config
+    - name: Set DB User on wp-config
       replace:
         path: /var/www/wordpress/wp-config.php
         regexp: 'username_here'
         replace: "{{ db_user }}"
 
-    - name: Set DB Password di wp-config
+    - name: Set DB Password on wp-config
       replace:
         path: /var/www/wordpress/wp-config.php
         regexp: 'password_here'
         replace: "{{ db_pass }}"
     
-    - name: Copy konfigurasi Nginx dari Laptop ke VM
+    - name: Copy Nginx configuration to VM
       copy:
         src: nginx.conf
         dest: /etc/nginx/sites-available/wordpress
 
-    - name: Enable konfigurasi WordPress (Symlink)
+    - name: Enable WordPress configuration (Symlink)
       file:
         src: /etc/nginx/sites-available/wordpress
         dest: /etc/nginx/sites-enabled/wordpress
         state: link
 
-    - name: Disable konfigurasi default Nginx
+    - name: Disable default Nginx configuration
       file:
         path: /etc/nginx/sites-enabled/default
         state: absent
 
-    - name: Restart Nginx dan PHP
+    - name: Restart Nginx and PHP
       service:
         name: "{{ item }}"
         state: restarted
