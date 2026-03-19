@@ -8,28 +8,32 @@ resource "google_compute_disk" "extra_disk" {
 
 # VM Instance
 resource "google_compute_instance" "app_server" {
-  name = "docker-web-server"
+  name         = "docker-web-server"
   machine_type = "e2-micro"
-  zone = "asia-southeast2-a"
+  zone         = "asia-southeast2-a"
 
   boot_disk {
     initialize_params {
       image = "ubuntu-os-cloud/ubuntu-2404-lts-amd64"
-      size = 20
+      size  = 20
     }
   }
 
   attached_disk {
-    source = google_compute_disk.extra_disk.id
+    source      = google_compute_disk.extra_disk.id
     device_name = "extra-data"
   }
 
   network_interface {
-    network = google_compute_network.custom_vpc.id
+    network    = google_compute_network.custom_vpc.id
     subnetwork = google_compute_subnetwork.custom_subnet.id
     access_config {
       # give IP public
     }
+  }
+
+  metadata = {
+    ssh-keys = "ansible-user:${file("~/.ssh/id_rsa.pub")}"
   }
 
   metadata_startup_script = <<-EOF

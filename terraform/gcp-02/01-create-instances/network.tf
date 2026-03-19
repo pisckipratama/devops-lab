@@ -23,4 +23,5 @@ resource "google_compute_firewall" "allow_web_ssh" {
   }
 
   source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["web-server"]
 }

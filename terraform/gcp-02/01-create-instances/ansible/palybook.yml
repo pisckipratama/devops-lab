@@ -1,0 +1,32 @@
+---
+- name: Prepare Docker and App NGINX Hello
+  hosts: gcp_servers
+  become: true
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+    
+    - name: Install Docker.io and Python Docker SDK
+      apt:
+        pkg: 
+          - docker.io
+          - python-docker
+        state: present
+
+    - name: Make sure that Docker service is running
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Running NGINX Hello container
+      community.docker.docker_container:
+        name: nginx-hello-app
+        image: nginxdemos/hello
+        state: started
+        restart_policy: always
+        ports:
+          - "80:80"
