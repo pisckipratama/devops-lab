@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Deploy to Webserver') {
+            steps {
+                // Mengambil Credential dari Jenkins
+                withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-vagrant', keyFileVariable: 'SSH_KEY_FILE', usernameVariable: 'SSH_USER')]) {
+                    
+                    // PERBAIKAN DI SINI:
+                    // Gunakan Triple Single Quotes (''') agar Groovy tidak melakukan interpolasi.
+                    // Biarkan Shell ($) yang membaca variabel environment.
+                    
+                    sh '''
+                    # Matikan host key checking (untuk lab/vagrant)
+                    export ANSIBLE_HOST_KEY_CHECKING=False
+                    
+                    # Jalankan Ansible
+                    # Perhatikan "$SSH_KEY_FILE" dibaca oleh shell, bukan oleh Jenkins
+                    ansible-playbook -i 192.168.56.104, \
+                    -u vagrant \
+                    --private-key "$SSH_KEY_FILE" \
+                    ansible/01-install-wordpress/playbook.yml
+                    '''
+                }
+            }
+        }
+    }
+}
