@@ -62,7 +62,8 @@ resource "google_compute_instance" "app_server" {
   lifecycle {
     ignore_changes = [ 
       metadata,
-      boot_disk[0].initialize_params[0].image
+      boot_disk[0].initialize_params[0].image,
+      metadata_startup_script
      ]
   }
 }
