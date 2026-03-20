@@ -33,10 +33,6 @@ resource "google_compute_instance" "app_server" {
     }
   }
 
-  metadata = {
-    ssh-keys = "ansible-user:${file("${var.ssh_pub_key_path}")}"
-  }
-
   metadata_startup_script = <<-EOF
     #!/bin/bash
 
