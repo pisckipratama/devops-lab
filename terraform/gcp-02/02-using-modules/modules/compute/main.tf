@@ -58,4 +58,11 @@ resource "google_compute_instance" "app_server" {
     # --restart always : Container akan otomatis menyala lagi jika VM di-restart
     docker run -d -p 80:80 --name whoami-app --restart always traefik/whoami
   EOF
+
+  lifecycle {
+    ignore_changes = [ 
+      metadata,
+      boot_disk[0].initialize_params[0].image
+     ]
+  }
 }
