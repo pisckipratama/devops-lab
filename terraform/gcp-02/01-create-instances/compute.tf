@@ -11,6 +11,7 @@ resource "google_compute_instance" "app_server" {
   name         = "docker-web-server"
   machine_type = "e2-micro"
   zone         = "asia-southeast2-a"
+  tags         = ["web-server"]
 
   boot_disk {
     initialize_params {
